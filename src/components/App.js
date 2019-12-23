@@ -31,14 +31,14 @@ class App extends React.Component {
             // Add a new trade and update net position
             await tradeRepository.add(companyName, quantity);
             await stockRepository.updateStock(companyName, quantity);
+            // Clear the inputs
+            this.addTradeForm.clearInputs();
+
+            this.showNotification("Traded successfully!", "success");
 
             // Emit event afterUpdateStock
             const e = new CustomEvent('afterUpdateStock');
             dispatchEvent(e);
-
-            // Clear the inputs
-            this.addTradeForm.clearInputs();
-            this.showNotification("Traded successfully!", "success");
         } catch (e) {
             this.showNotification("Failed to access database: " + e.message, "error");
         }
