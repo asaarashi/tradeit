@@ -42,7 +42,7 @@ class AddTradeForm extends React.Component {
                             <TextValidator
                                 id="companyName"
                                 name="companyName"
-                                label="Company Name"
+                                label="Company name"
                                 value={companyName}
                                 validators={['required']}
                                 errorMessages={['This field is required']}
