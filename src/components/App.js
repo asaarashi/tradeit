@@ -36,6 +36,8 @@ class App extends React.Component {
             const e = new CustomEvent('afterUpdateStock');
             dispatchEvent(e);
 
+            // Clear the inputs
+            this.addTradeForm.clearInputs();
             this.showNotification("Traded successfully!", "success");
         } catch (e) {
             this.showNotification("Failed to access database: " + e.message, "error");
@@ -73,8 +75,6 @@ class App extends React.Component {
         // Listen to event afterUpdateStock, if it is emitted, reloads the net stock positions grid
         window.addEventListener("afterUpdateStock", async (event) => {
             await loadNetPositionGrid();
-            // and then clear the inputs
-            this.addTradeForm.clearInputs();
         });
     }
 
