@@ -1,4 +1,4 @@
-async function CreateDbConnection() {
+function CreateDbConnection() {
     return new Promise((resolve, reject) => {
         const req = window.indexedDB.open("tradeit", 5);
 

@@ -10,7 +10,7 @@ class StockRepository extends BaseRepository {
     /**
      * Retrieve all stocks
      */
-    async getAll() {
+    getAll() {
         return new Promise((resolve, reject) => {
             const req = this.store.getAll();
             req.onsuccess = (event) => {
@@ -26,7 +26,7 @@ class StockRepository extends BaseRepository {
     /**
      * If the stock name exists, just update the quantity, or else create a new row of stock
      */
-    async updateStock(stockName, quantity) {
+    updateStock(stockName, quantity) {
         return new Promise((resolve, reject) => {
             this.store = this.transaction.objectStore("stocks");
             const req = this.store.get(stockName);

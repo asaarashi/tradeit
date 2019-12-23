@@ -8,9 +8,9 @@ class TradeRepository extends BaseRepository {
     }
 
     /**
-     * Create a new row for trade
+     * Create a row for a new trade
      */
-    async add(companyName, quantity) {
+    add(companyName, quantity) {
         return new Promise((resolve, reject) => {
             const req = this.store.add({
                 stock_name: companyName,
