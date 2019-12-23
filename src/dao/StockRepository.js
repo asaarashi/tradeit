@@ -36,7 +36,7 @@ class StockRepository extends BaseRepository {
                 if (!stock) {
                     const req = this.store.add({
                         stock_name: stockName,
-                        net_position: quantity
+                        total: quantity
                     });
                     req.onsuccess = (event) => {
                         resolve(true);
@@ -45,7 +45,7 @@ class StockRepository extends BaseRepository {
                         reject(event.error.message);
                     };
                 } else {
-                    stock.net_position = StockRepository.calculateNetPosition(stock, quantity);
+                    stock.total = StockRepository.calculateNetPosition(stock, quantity);
                     const req = this.store.put(stock);
                     req.onsuccess = (event) => {
                         resolve(true);
@@ -62,7 +62,7 @@ class StockRepository extends BaseRepository {
     }
 
     static calculateNetPosition(stock, quantity) {
-        return stock.net_position + quantity;
+        return stock.total + quantity;
     }
 }
 

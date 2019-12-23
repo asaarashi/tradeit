@@ -23,7 +23,7 @@ function CreateDbConnection() {
 
             // Create an objectStore to hold information about stock&net position.
             const stocksStore = db.createObjectStore("stocks", {keyPath: "stock_name"});
-            stocksStore.createIndex("net_position", "net_position", {unique: false});
+            stocksStore.createIndex("total", "total", {unique: false});
         };
     });
 }

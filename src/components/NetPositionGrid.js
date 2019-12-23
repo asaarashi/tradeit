@@ -24,7 +24,7 @@ function NetPositionGrid(props) {
                             <TableCell component="th" scope="row">
                                 {row.stock_name}
                             </TableCell>
-                            <TableCell align="right">{row.net_position}</TableCell>
+                            <TableCell align="right">{row.total}</TableCell>
                         </TableRow>
                     )) : (
                         <TableRow>
