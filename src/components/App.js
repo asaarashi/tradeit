@@ -17,7 +17,8 @@ class App extends React.Component {
             stocks: [],
             showNotification: false,
             notificationText: "",
-            notificationVariant: "success"
+            notificationVariant: "success",
+            hasGridDataLoaded: false
         };
     }
 
@@ -31,17 +32,18 @@ class App extends React.Component {
             // Add a new trade and update net position
             await tradeRepository.add(companyName, quantity);
             await stockRepository.updateStock(companyName, quantity);
-            // Clear the inputs
-            this.addTradeForm.clearInputs();
-
-            this.showNotification("Traded successfully!", "success");
-
-            // Emit event afterUpdateStock
-            const e = new CustomEvent('afterUpdateStock');
-            dispatchEvent(e);
         } catch (e) {
             this.showNotification("Failed to access database: " + e.message, "error");
+            return;
         }
+
+        // Clear the inputs
+        this.addTradeForm.clearInputs();
+
+        this.showNotification("Traded successfully!", "success");
+        // Emit event afterUpdateStock
+        const e = new CustomEvent('afterUpdateStock');
+        dispatchEvent(e);
     };
 
     showNotification(text, variant) {
@@ -61,10 +63,13 @@ class App extends React.Component {
         }
 
         let loadNetPositionGrid = async () => {
+            // "Loading..." displays only when the page is just loaded
+            this.setState({hasGridDataLoaded: false});
+
             const stockRepository = new StockRepository(this.db.transaction(["stocks"]));
             try {
                 const stocks = await stockRepository.getAll() || [];
-                this.setState({stocks});
+                this.setState({stocks, hasGridDataLoaded: true});
             } catch (e) {
                 this.showNotification("Failed to access database: " + e.message, "error");
             }
@@ -83,14 +88,14 @@ class App extends React.Component {
     };
 
     render() {
-        const {stocks, showNotification, notificationText, notificationVariant} = this.state;
+        const {stocks, showNotification, notificationText, notificationVariant, hasGridDataLoaded} = this.state;
 
         return (
             <Container maxWidth="md">
                 <Notification open={showNotification} message={notificationText} variant={notificationVariant}
                               onClose={() => this.setState({showNotification: false})}/>
                 <Pane title="Today's trades">
-                    <NetPositionGrid stocks={stocks}/>
+                    <NetPositionGrid stocks={stocks} hasGridDataLoaded={hasGridDataLoaded}/>
                 </Pane>
                 <Pane title="Add new trade">
                     <AddTradeForm onSubmit={this.submitTradeForm} ref={this.setAddTradeFormRef}/>

@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 function NetPositionGrid(props) {
-    const {stocks} = props;
+    const {stocks, hasGridDataLoaded} = props;
     return (
         <TableContainer component={Paper}>
             <Table className="net-position-grid" aria-label="simple table">
@@ -29,7 +29,11 @@ function NetPositionGrid(props) {
                     )) : (
                         <TableRow>
                             <TableCell component="th" scope="row">
-                                <em>No data to display. Please add a new trade from the below form.</em>
+                                {hasGridDataLoaded ? (
+                                    <em>No data to display. Please add a new trade from the below form.</em>
+                                ) : (
+                                    <em>Loading...</em>
+                                )}
                             </TableCell>
                         </TableRow>
                     )}
